@@ -1,4 +1,12 @@
 FitBit::Application.routes.draw do
+    resources :user_tokens do
+        collection do
+            get 'fitbit_reply'
+        end
+    end
+
+    match '/fitbit_reply',  :to => 'user_tokens#init'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

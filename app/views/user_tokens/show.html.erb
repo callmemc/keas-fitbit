@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @user_token.user_id %>
+</p>
+
+<p>
+  <b>Request token:</b>
+  <%= @user_token.request_token %>
+</p>
+
+<p>
+  <b>Token:</b>
+  <%= @user_token.token %>
+</p>
+
+<p>
+  <b>Secret:</b>
+  <%= @user_token.secret %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_token_path(@user_token) %> |
+<%= link_to 'Back', user_tokens_path %>
