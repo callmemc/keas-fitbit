@@ -22,17 +22,12 @@ class UserTokensController < ApplicationController
         token = params["oauth_token"]
         verifier = params["oauth_verifier"]
         @user_token = UserToken.where(:token => token).first
-        logger.debug "oauth token is #{token} verifier:#{verifier} params are #{params}"
         client = Fitgem::Client.new(:consumer_key => MY_CONSUMER_KEY, :consumer_secret => MY_CONSUMER_SECRET)
         access_token = client.authorize(@user_token.token, @user_token.secret, { :oauth_verifier => verifier })
-        logger.debug "access token:#{access_token}"
         @user_token.final_secret = access_token.secret
         @user_token.final_token = access_token.token
         @user_token.save
-        logger.debug "access_token:#{@user_token.final_token} secret:#{@user_token.final_secret}"
-        user_data = client.user_info['user']
-        logger.debug "user_data:#{user_data}"
-        @params = params
+        @user_data = client.user_info['user']
         respond_to do |format|
             format.html # show.html.erb
             format.json { render json: @user_token }
@@ -52,6 +47,9 @@ class UserTokensController < ApplicationController
         @client = Fitgem::Client.new(@oa)
         @access_token = @client.reconnect(@oa[:token], @oa[:secret])
         @user_info = @client.user_info['user']
+        @activities = @client.activities
+        logger.debug "Activities"
+        logger.debug @activities
         respond_to do |format|
             format.html # show.html.erb
             format.json { render json: @user_token }

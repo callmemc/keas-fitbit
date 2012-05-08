@@ -19,6 +19,8 @@ describe UserToken do
              p @user_info
              @user_info["gender"].should == "MALE"
              @user_info["dateOfBirth"].should == "1955-09-01"
+             @activities = @client.activities_on_date 'today'
+             p @activities
          end
      end
 end

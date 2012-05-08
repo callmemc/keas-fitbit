@@ -2,7 +2,10 @@
 
 <p><% @user_info.each do |k,v| %>
   <p><%= k %><%=  v %></p>
- <% end %>
+<% end %>
+
+<p>
+  <%= expand_fit_data @activities, "Activities" %>
 
 <%= link_to 'Edit', edit_user_token_path(@user_token) %> |
 <%= link_to 'Back', user_tokens_path %>
