@@ -12,7 +12,7 @@ class UserTokensController < ApplicationController
         @user_tokens = UserToken.all
 
         respond_to do |format|
-            format.html # index.html.erb
+            format.html # old_index.html.erb
             format.json { render json: @user_tokens }
         end
     end

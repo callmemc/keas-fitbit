@@ -8,11 +8,18 @@ FitBit::Application.routes.draw do
             get 'show_activity_statistics'
             get 'show_activities_on_date'
             get 'show_activities'
-            get 'show'
+        end
+    end
+
+    resources :pages do
+        collection do
+            get 'home'
         end
     end
 
     match '/fitbit_reply',  :to => 'user_tokens#init'
+
+    root :to => 'pages#home'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -62,7 +69,7 @@ FitBit::Application.routes.draw do
   #   end
 
   # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
+  # just remember to delete public/old_index.html.
   # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"

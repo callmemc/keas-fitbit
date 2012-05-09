@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <p><% @user_info.each do |k,v| %>
-  <p><%= k %><%=  v %></p>
+  <p><%= k %>: <%=  v %></p>
 <% end %>
 
 <%= link_to 'All Activities', show_activities_user_token_path(@user_token) %>  |
