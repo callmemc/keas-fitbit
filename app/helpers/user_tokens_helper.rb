@@ -20,13 +20,19 @@ module UserTokensHelper
         s = "<div style='margin-left:#{indent}px;'>"
         hasSpeed = data["hasSpeed"] != nil && data["hasSpeed"] != "false"
 
+        hasName = data['name'] != nil
+        name = data['name'] if hasName
+
         hasId = data["id"] != nil
         id = data["id"] if hasId
 
         hasMets = data["mets"] != nil
         mets = data["mets"].to_f.round if hasMets
-        s += "#{data['name']}"
-        s += "(id:#{data['id']}) " if hasId
+        ids = {:id => 12, :activity_id => id}
+        url = show_activities_user_token_url(ids)
+
+        s += "#{data['name']}" unless hasId
+        s += "<a href='#{show_activity_user_token_url()}?id=12&activity_id=#{id}'>#{id} - #{name}</a>"  if hasId
         s += " (Mets:#{mets}) " if hasMets
         data.each do |k,v|
             next if ["mets","hasSpeed", "accessLevel", "name","id"].include?(k)
@@ -39,8 +45,8 @@ module UserTokensHelper
             next if ["mets","hasSpeed", "accessLevel", "name","id"].include?(k)
             next if ["maxSpeedMPH","minSpeedMPH"].include?(k) && hasSpeed
             next if v.class != Array && v.class != Hash
-            s += "<p />#{k}:#{expand_array(v, indent+ 10)}" if v.class == Array
-            s += "<p />#{k}:<p />#{expand_hash(v,indent+10)}" if v.class == Hash
+            s += "<p /><span style='margin-left:#{indent+10}px;'>#{k}:</span>#{expand_array(v, indent+ 20)}" if v.class == Array
+            s += "<p /><span style='margin-left:#{indent+10}px;'>#{k}:</span><p />#{expand_hash(v,indent+20)}" if v.class == Hash
         end
         s += "</div>"
     end

@@ -7,6 +7,8 @@ FitBit::Application.routes.draw do
             get 'show_activity'
             get 'show_activity_statistics'
             get 'show_activities_on_date'
+            get 'show_activities'
+            get 'show'
         end
     end
 

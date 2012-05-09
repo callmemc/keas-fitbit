@@ -25,7 +25,7 @@
       <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="260" vertical-scroll-proportion="-0.0">
+            <state line="5" column="0" selection-start="105" selection-end="105" vertical-scroll-proportion="-3.125">
               <folding />
             </state>
           </provider>
@@ -34,7 +34,7 @@
       <file leaf-file-name="user_tokens_helper.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/helpers/user_tokens_helper.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="39" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.7927928">
+            <state line="35" column="42" selection-start="1087" selection-end="1087" vertical-scroll-proportion="0.5379147">
               <folding />
             </state>
           </provider>
@@ -61,7 +61,7 @@
       <file leaf-file-name="user_tokens_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/user_tokens_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="27" selection-start="2497" selection-end="2497" vertical-scroll-proportion="0.0">
+            <state line="77" column="15" selection-start="2654" selection-end="2654" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -70,7 +70,7 @@
       <file leaf-file-name="show_activity_statistics.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activity_statistics.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="204" vertical-scroll-proportion="0.0">
+            <state line="3" column="42" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -79,7 +79,16 @@
       <file leaf-file-name="show_activities_on_date.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activities_on_date.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="36" selection-start="74" selection-end="74" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="205" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="show_activities.html.erb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activities.html.erb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="43" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -97,16 +106,7 @@
       <file leaf-file-name="routes.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config/routes.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="42" selection-start="222" selection-end="222" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user_token_spec.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/models/user_token_spec.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="849" selection-end="910" vertical-scroll-proportion="0.0">
+            <state line="10" column="22" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -128,12 +128,13 @@
         <option value="$PROJECT_DIR$/app/controllers/fitbit_controller.rb" />
         <option value="$PROJECT_DIR$/spec/models/user_token_spec.rb" />
         <option value="$PROJECT_DIR$/app/views/user_tokens/init.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/user_tokens/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/user_tokens/show_activity.html.erb" />
-        <option value="$PROJECT_DIR$/app/views/user_tokens/show_activity_statistics.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/user_tokens/show_activities_on_date.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/user_tokens/show_activities.html.erb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/controllers/user_tokens_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/user_tokens/show_activities_on_date.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/user_tokens/show_activity_statistics.html.erb" />
+        <option value="$PROJECT_DIR$/app/views/user_tokens/show.html.erb" />
         <option value="$PROJECT_DIR$/app/helpers/user_tokens_helper.rb" />
       </list>
     </option>
@@ -766,13 +767,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/user_tokens/edit.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/migrate/20120507214904_add_final_token_to_user_tokens.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="42" selection-start="184" selection-end="184" vertical-scroll-proportion="0.0">
@@ -827,13 +821,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="260" vertical-scroll-proportion="-0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activity.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="196" vertical-scroll-proportion="0.0">
@@ -841,37 +828,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activity_statistics.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activities_on_date.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="204" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="205" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activities.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="43" selection-start="133" selection-end="133" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/routes.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="42" selection-start="222" selection-end="222" vertical-scroll-proportion="0.0">
+        <state line="10" column="22" selection-start="321" selection-end="321" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activity_statistics.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="42" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/user_tokens_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="27" selection-start="2497" selection-end="2497" vertical-scroll-proportion="0.0">
+        <state line="77" column="15" selection-start="2654" selection-end="2654" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show_activities_on_date.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/user_tokens/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="36" selection-start="74" selection-end="74" vertical-scroll-proportion="0.0">
+        <state line="5" column="0" selection-start="105" selection-end="105" vertical-scroll-proportion="-3.125">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/helpers/user_tokens_helper.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="39" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.7927928">
+        <state line="35" column="42" selection-start="1087" selection-end="1087" vertical-scroll-proportion="0.5379147">
           <folding />
         </state>
       </provider>

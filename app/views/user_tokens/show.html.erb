@@ -4,8 +4,8 @@
   <p><%= k %><%=  v %></p>
 <% end %>
 
-<p>
-  <%= expand_fit_data @activities, "Activities" %>
-
+<%= link_to 'All Activities', show_activities_user_token_path(@user_token) %>  |
+<%= link_to 'All Activities for today', show_activities_on_date_user_token_path(@user_token) %> |
+<%= link_to 'Statistics', show_activity_statistics_user_token_path(@user_token) %> |
 <%= link_to 'Edit', edit_user_token_path(@user_token) %> |
 <%= link_to 'Back', user_tokens_path %>

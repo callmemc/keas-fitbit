@@ -37,8 +37,16 @@ class UserTokensController < ApplicationController
     # GET /user_tokens/1
     # GET /user_tokens/1.json
     def show
-        @client = basic.connect
+        @client = basic_connect
         @user_info = @client.user_info['user']
+        respond_to do |format|
+            format.html # show.html.erb
+            format.json { render json: @user_token }
+        end
+    end
+
+    def show_activities
+        @client = basic_connect
         @activities = @client.activities
         respond_to do |format|
             format.html # show.html.erb
