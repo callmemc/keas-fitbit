@@ -3,6 +3,11 @@ FitBit::Application.routes.draw do
         collection do
             get 'fitbit_reply'
         end
+        member do
+            get 'show_activity'
+            get 'show_activity_statistics'
+            get 'show_activities_on_date'
+        end
     end
 
     match '/fitbit_reply',  :to => 'user_tokens#init'

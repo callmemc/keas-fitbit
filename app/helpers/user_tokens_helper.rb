@@ -17,7 +17,7 @@ module UserTokensHelper
     end
 
     def expand_hash data, indent
-        s = "EH:#{data['name']}-#{data['id']} - <span style='margin-left:#{indent}px;'>"
+        s = "<div style='margin-left:#{indent}px;'>"
         hasSpeed = data["hasSpeed"] != nil && data["hasSpeed"] != "false"
 
         hasId = data["id"] != nil
@@ -25,20 +25,24 @@ module UserTokensHelper
 
         hasMets = data["mets"] != nil
         mets = data["mets"].to_f.round if hasMets
-        s = "EH:#{data['name']}"
+        s += "#{data['name']}"
         s += "(id:#{data['id']}) " if hasId
         s += " (Mets:#{mets}) " if hasMets
-
-        s += "<span style='margin-left:#{indent}px;'>"
         data.each do |k,v|
             next if ["mets","hasSpeed", "accessLevel", "name","id"].include?(k)
             next if ["maxSpeedMPH","minSpeedMPH"].include?(k) && hasSpeed
-            s += "#{k}:"
-            s += expand_array(v, indent+ 10) if v.class == Array
-            s += "#{v} " if v.class == String
-            s += "#{v.to_s} " if v.class != Array && v.class != String
+            next if v.class == Array || v.class == Hash
+            s += "#{k}: #{v} " if v.class == String
+            s += "#{k}: #{v.to_s} " if v.class != String
         end
-        s += "</span>"
+        data.each do |k,v|
+            next if ["mets","hasSpeed", "accessLevel", "name","id"].include?(k)
+            next if ["maxSpeedMPH","minSpeedMPH"].include?(k) && hasSpeed
+            next if v.class != Array && v.class != Hash
+            s += "<p />#{k}:#{expand_array(v, indent+ 10)}" if v.class == Array
+            s += "<p />#{k}:<p />#{expand_hash(v,indent+10)}" if v.class == Hash
+        end
+        s += "</div>"
     end
 
 end
