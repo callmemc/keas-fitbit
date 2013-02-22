@@ -16,6 +16,8 @@ FitBit::Application.routes.draw do
             get 'home'
         end
     end
+    
+    resources :fitbit
 
     match '/fitbit_reply',  :to => 'user_tokens#init'
 
