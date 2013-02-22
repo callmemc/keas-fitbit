@@ -1,23 +1,32 @@
 FitBit::Application.routes.draw do
     resources :user_tokens do
-        collection do
-            get 'fitbit_reply'
-        end
-        member do
-            get 'show_activity'
-            get 'show_activity_statistics'
-            get 'show_activities_on_date'
-            get 'show_activities'
-        end
+      collection do
+          get 'fitbit_reply'
+      end
+      member do
+          get 'show_activity'
+          get 'show_activity_statistics'
+          get 'show_activities_on_date'
+          get 'show_activities'
+      end
     end
 
     resources :pages do
-        collection do
-            get 'home'
-        end
+      collection do
+          get 'home'
+      end
     end
     
-    resources :fitbit
+    resources :fitbit do
+      #routes HTTP Post request
+      member do
+        post 'index'
+      end      
+      collection do
+        get 'authorize'
+        get 'index'
+      end
+    end
 
     match '/fitbit_reply',  :to => 'user_tokens#init'
 

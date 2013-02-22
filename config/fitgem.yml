@@ -2,6 +2,6 @@
 :oauth:
   :consumer_key: 537f25843e81488db9edf2f45c48e3d0
   :consumer_secret: 5db2d692a92c4a67bfa216de2be171ac
-  :token: 7b7cb6dd99fcc23ef69c755849cacdae
-  :secret: 1111563fe6e472c6a5448d609d0d4988
-  :user_id: 24N6YJ
+  #:token: 7b7cb6dd99fcc23ef69c755849cacdae
+  #:secret: 1111563fe6e472c6a5448d609d0d4988
+  #:user_id: 24N6YJ
