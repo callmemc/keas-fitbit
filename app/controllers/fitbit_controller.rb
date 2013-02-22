@@ -10,7 +10,7 @@ class FitbitController < ApplicationController
   def index 
     # Load the existing yml config
     config = begin
-      Fitgem::Client.symbolize_keys(YAML.load(File.open("config/.fitgem.yml")))
+      Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
     rescue ArgumentError => e
       puts "Could not parse YAML: #{e.message}"
       exit
@@ -55,7 +55,7 @@ class FitbitController < ApplicationController
       config[:oauth].merge!(:token => access_token.token, :secret => access_token.secret, :user_id => user_id)
 
       # Write the whole oauth token set back to the config file
-      File.open("config/.fitgem.yml", "w") {|f| f.write(config.to_yaml) }
+      File.open("config/fitgem.yml", "w") {|f| f.write(config.to_yaml) }
     end
   end
 
