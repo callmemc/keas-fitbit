@@ -13,7 +13,7 @@ FitBit::Application.routes.draw do
 
     resources :pages do
       collection do
-          get 'home'
+        get 'home'
       end
     end
     
@@ -21,7 +21,7 @@ FitBit::Application.routes.draw do
       #routes HTTP Post request
       member do
         post 'index'
-        get 'index'
+        get 'authorize'
       end      
       collection do
         get 'authorize'
@@ -29,8 +29,8 @@ FitBit::Application.routes.draw do
       end
     end
 
-    match '/fitbit/authorize', :to => {:controller => 'fitbit', :action => 'authorize'}
-    match '/fitbit_reply',  :to => 'user_tokens#init'
+    #match '/fitbit/authorize' => {:controller => 'fitbit', :action => 'authorize'}
+    match '/fitbit_reply' => 'user_tokens#init'
 
     root :to => 'pages#home'
 
