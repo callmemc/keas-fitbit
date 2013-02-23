@@ -27,6 +27,8 @@ group :production do
   gem 'pg'
 end
 
+gem 'rake', '0.9.2.2'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

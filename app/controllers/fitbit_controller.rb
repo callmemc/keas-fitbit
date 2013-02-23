@@ -1,10 +1,17 @@
 #http://www.fitbitclient.com/guide/getting-started
 #http://keas-fitbit.herokuapp.com/fitbit?oauth_token=c03f209de94008314375dfc3ec922340&oauth_verifier=mc51um9ohths7l80jb71h7513e
 
+#require 'rubygems'
+#require 'fitgem/notifications'
+
 class FitbitController < ApplicationController
   
   def authorize
-    
+    if params[:collectionType]
+      Notification.create(:collectionType => params[:collectionType], :date => params[:date], 
+      :ownerId => params[:ownerId], :ownerType => params[:ownerType], 
+      :subscriptionId => params[:subscriptionId])
+    end
   end
   
   def index 
@@ -56,8 +63,12 @@ class FitbitController < ApplicationController
 
       # Write the whole oauth token set back to the config file
       File.open("config/fitgem.yml", "w") {|f| f.write(config.to_yaml) }
+      
+      #Create subscription using fitgem
+      client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user
+            
+      #POST /1/user/-/apiSubscriptions/320.xml
     end
   end
-
-  
+ 
 end
