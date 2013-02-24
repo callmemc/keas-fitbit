@@ -5,3 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+Notification.create!(:collectionType => "user", :date => '2010-03-01', :ownerId => "24N6YJ",
+:ownerType => "user", :subscriptionId => "24N6YJ")

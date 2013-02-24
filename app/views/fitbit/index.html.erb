@@ -1,8 +1,12 @@
 <% Notification.all.each do |n| %>
 	Collection type: <%= n.collectionType %>
-	Date: <%= n.date %>
-	Owner ID: <%= n.ownerId %>
-	Owner Type: <%= n.ownerType %>
-	Subscription ID: <%= n.subscriptionId %>
-	<br>
+	<br>Date: <%= n.date %>
+	<br>Owner ID: <%= n.ownerId %>
+	<br>Owner Type: <%= n.ownerType %>
+	<br>Subscription ID: <%= n.subscriptionId %>
+	<br><br>
 <% end %>
+
+Subscriptions:
+<br>
+<%= @subscriptions %>
