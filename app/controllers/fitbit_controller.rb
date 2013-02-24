@@ -45,7 +45,7 @@ class FitbitController < ApplicationController
       begin
         access_token = client.authorize(token, secret, { :oauth_verifier => @verifier })
       rescue Exception => e
-        puts "Error: Could not authorize Fitgem::Client with supplied oauth verifier: " @verifier
+        puts "Error: Could not authorize Fitgem::Client with supplied oauth verifier: " + @verifier
         exit
       end
 
