@@ -43,7 +43,7 @@ class FitbitController < ApplicationController
       #User shouldbe redirected back to callback URL you previously setup on Fitbit API Developer site
       
       begin
-        access_token = client.authorize(token, secret, { :oauth_verifier => verifier })
+        access_token = client.authorize(token, secret, { :oauth_verifier => @verifier })
       rescue Exception => e
         puts "Error: Could not authorize Fitgem::Client with supplied oauth verifier"
         exit
