@@ -25,6 +25,14 @@ class FitbitController < ApplicationController
   end
     
   def verify  
+    config = begin
+      Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
+    rescue ArgumentError => e
+      puts "Could not parse YAML: #{e.message}"
+      exit
+    end
+    client = Fitgem::Client.new(config[:oauth])
+    
     #After authorize page, FitBit redirects back to verify page
     if @verifier = params[:oauth_verifier]
       request_token = client.request_token
@@ -34,7 +42,6 @@ class FitbitController < ApplicationController
     
       #User shouldbe redirected back to callback URL you previously setup on Fitbit API Developer site
       
-      #verifier = gets.chomp  #whatever was typed in the command line
       begin
         access_token = client.authorize(token, secret, { :oauth_verifier => verifier })
       rescue Exception => e
