@@ -4,17 +4,6 @@
 class FitbitController < ApplicationController
   
   def authorize
-  end
-  
-  def collect
-    if params[:collectionType]
-      Notification.create(:collectionType => params[:collectionType], :date => params[:date], 
-      :ownerId => params[:ownerId], :ownerType => params[:ownerType], 
-      :subscriptionId => params[:subscriptionId])
-    end
-  end
-  
-  def index 
     # Load the existing yml config
     config = begin
       Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
@@ -23,28 +12,29 @@ class FitbitController < ApplicationController
       exit
     end
     client = Fitgem::Client.new(config[:oauth])
-  
-    # With USER CREDENTIALS token and secret, try to use them to reconstitute a usable Fitgem::Client
+    
+    #Already have a FitBit account
     if config[:oauth][:token] && config[:oauth][:secret]
-      begin
-        access_token = client.reconnect(config[:oauth][:token], config[:oauth][:secret])
-      rescue Exception => e
-        puts "Error: Could not reconnect Fitgem::Client due to invalid keys in .fitgem.yml"
-        exit
-      end
-    # Without USER CREDENTIALS secret and token, initialize Fitgem::Client
-    # and send user to login and get a verifier token
+      @fitbit = true
+    #Need to be directed to FitBit verify page
     else
       request_token = client.request_token
       token = request_token.token
+      @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{token}"
+    end
+  end
+    
+  def verify  
+    #After authorize page, FitBit redirects back to verify page
+    if @verifier = params[:oauth_verifier]
+      request_token = client.request_token
+      token = request_token.token
       secret = request_token.secret
-      auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{token}"
+      @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{token}"
     
       #User shouldbe redirected back to callback URL you previously setup on Fitbit API Developer site
-    
-      puts "Go to #{auth_url} and then enter the verifier code below"
-      verifier = gets.chomp  #whatever was typed in the command line
-
+      
+      #verifier = gets.chomp  #whatever was typed in the command line
       begin
         access_token = client.authorize(token, secret, { :oauth_verifier => verifier })
       rescue Exception => e
@@ -68,7 +58,42 @@ class FitbitController < ApplicationController
       client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user
             
     end
-  @subscriptions = client.subscriptions(:type => :all)
+  end
+  
+  def collect
+    if params[:collectionType]
+      Notification.create(:collectionType => params[:collectionType], :date => params[:date], 
+      :ownerId => params[:ownerId], :ownerType => params[:ownerType], 
+      :subscriptionId => params[:subscriptionId])
+    end
+  end
+  
+  def index 
+    # Load the existing yml config
+    config = begin
+      Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
+    rescue ArgumentError => e
+      puts "Could not parse YAML: #{e.message}"
+      exit
+    end
+    client = Fitgem::Client.new(config[:oauth])  
+    # With USER CREDENTIALS token and secret, try to use them to reconstitute a usable Fitgem::Client
+    # Then display subscription info
+    if config[:oauth][:token] && config[:oauth][:secret]
+      @fitbit = true
+=begin
+      begin
+        access_token = client.reconnect(config[:oauth][:token], config[:oauth][:secret])
+      rescue Exception => e
+        puts "Error: Could not reconnect Fitgem::Client due to invalid keys in .fitgem.yml"
+        exit
+      end
+      @subscriptions = client.subscriptions(:type => :all)
+=end
+    #Provide link to Add FitBit
+    else
+      @fitbit = false
+    end  
   end
  
 end

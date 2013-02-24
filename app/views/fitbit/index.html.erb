@@ -7,6 +7,10 @@
 	<br><br>
 <% end %>
 
-Subscriptions:
-<br>
-<%= @subscriptions %>
+
+<% if @fitbit == true %>
+	Subscriptions:
+	<br><%= @subscriptions %>
+<% else %>
+ <%= link_to "Add Fitbit Account", {:controller => 'fitbit', :action => 'authorize'} %>
+<% end%>
