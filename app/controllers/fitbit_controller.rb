@@ -39,9 +39,7 @@ class FitbitController < ApplicationController
       token = request_token.token
       secret = request_token.secret
       @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{token}"
-    
-      #User shouldbe redirected back to callback URL you previously setup on Fitbit API Developer site
-      
+          
       begin
         access_token = client.authorize(token, secret, { :oauth_verifier => @verifier })
       rescue Exception => e
