@@ -17,6 +17,33 @@ class FitbitController < ApplicationController
     if config[:oauth][:token] && config[:oauth][:secret]
       @fitbit = true
     #Need to be directed to FitBit verify page
+    elsif @verifier = params[:oauth_verifier]
+      request_token = client.request_token
+      token = request_token.token
+      secret = request_token.secret
+      @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{token}"
+          
+      begin
+        access_token = client.authorize(token, secret, { :oauth_verifier => @verifier })
+      rescue Exception => e
+        puts "Error: Could not authorize Fitgem::Client with supplied oauth verifier: " + @verifier
+        exit
+      end
+
+      puts 'Verifier is: '+verifier
+      puts "Token is:    "+access_token.token
+      puts "Secret is:   "+access_token.secret
+
+      user_id = client.user_info['user']['encodedId']
+      puts "Current User is: "+user_id
+
+      config[:oauth].merge!(:token => access_token.token, :secret => access_token.secret, :user_id => user_id)
+
+      # Write the whole oauth token set back to the config file
+      File.open("config/fitgem.yml", "w") {|f| f.write(config.to_yaml) }
+      
+      #Create subscription using fitgem
+      client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user
     else
       request_token = client.request_token
       token = request_token.token
