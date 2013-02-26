@@ -10,9 +10,10 @@ class CollectController < ApplicationController
     
     puts json_string
 
-    #parsed_json = ActiveSupport::JSON.decode(json_string)
+    parsed_json = ActiveSupport::JSON.decode(json_string)
       
-    json_string.each do |notification|      
+    parsed_json.each do |notification|
+      notification.symbolize_keys!      
       Notification.create(:collectionType => notification[:collectionType], :date => notification[:date], 
       :ownerId => notification[:ownerId], :ownerType => notification[:ownerType], 
       :subscriptionId => notification[:subscriptionId])
