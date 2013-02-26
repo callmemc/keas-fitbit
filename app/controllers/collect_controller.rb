@@ -1,3 +1,5 @@
+require 'pp'
+
 class CollectController < ApplicationController  
   def create
     pp params[:updates]
