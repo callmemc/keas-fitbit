@@ -34,6 +34,7 @@ FitBit::Application.routes.draw do
         get 'verifier'
         post 'collect'
         get 'test'
+        get 'remove_sub'
       end
     end
 

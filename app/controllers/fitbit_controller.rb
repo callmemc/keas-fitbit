@@ -76,6 +76,19 @@ class FitbitController < ApplicationController
     end
   end
   
+  def remove_sub
+    config = begin
+      Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
+    rescue ArgumentError => e
+      puts "Could not parse YAML: #{e.message}"
+      exit
+    end
+    client = Fitgem::Client.new(config[:oauth])
+    
+    client.remove_subscriptions (:type => :all, :subscription_id => "24N6YJ", :subscriber_id => "1")    
+  end
+  
+  
   # Displays notifications
   def index 
     # Load the existing yml config

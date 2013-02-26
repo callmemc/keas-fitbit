@@ -10,6 +10,8 @@
 <% end %>
 <br>
 
+<%= link_to "Remove subscription", {:controller => 'fitbit', :action => 'remove_sub'}, :remote => true %>
+
 <% if @fitbit == true %>
 	Subscriptions:
 	<br><%= @subscriptions %>
