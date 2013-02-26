@@ -30,6 +30,7 @@ FitBit::Application.routes.draw do
         post 'verify'
         get 'verify'
         get 'verifier'
+        post 'collect'
       end
     end
 
