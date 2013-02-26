@@ -1,6 +1,7 @@
 class CollectController < ApplicationController  
   def create
-    json_string = params[:updates]
+    json_file = params[:updates]
+    json_string = File.read(json_file)
     puts json_string
     parsed_json = ActiveSupport::JSON.decode(json_string)
       
