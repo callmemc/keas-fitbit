@@ -1,8 +1,11 @@
 class CollectController < ApplicationController  
   def create
-    json_file = params[:updates].filename
+    pp params[:updates]
+    json_file = params[:updates].original_filename
     json_string = File.read(json_file)
+    
     puts json_string
+
     parsed_json = ActiveSupport::JSON.decode(json_string)
       
     parsed_json.each do |notification|      
