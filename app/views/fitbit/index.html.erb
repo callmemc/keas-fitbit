@@ -1,3 +1,5 @@
+<b>Notifications: </b>
+<br>
 <% Notification.all.each do |n| %>
 	Collection type: <%= n.collectionType %>
 	<br>Date: <%= n.date %>
@@ -8,11 +10,9 @@
 <% end %>
 
 
-<!--FitBit account already added-->
 <% if @fitbit == true %>
 	Subscriptions:
 	<br><%= @subscriptions %>
-<!--FitBit account not yet added-->
 <% else %>
  <%= link_to "Add Fitbit Account", {:controller => 'fitbit', :action => 'authorize'} %>
 <% end%>

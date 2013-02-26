@@ -3,6 +3,7 @@
 
 class FitbitController < ApplicationController
   
+  #Authorizes Fitgem::Client with verifier entered b usery
   def create
     # Load the existing yml config
     config = begin
@@ -35,6 +36,7 @@ class FitbitController < ApplicationController
     client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user
   end
   
+  #Displays link to authorize FitBit account and field to enter verifier
   def authorize
     # Load the existing yml config
     config = begin
@@ -53,15 +55,19 @@ class FitbitController < ApplicationController
     else
       request_token = @client.request_token
       @token = request_token.token
-      @secret = request_token.secret                                 
+      @secret = request_token.secret
+      #URL user is directed to to authorize Keas to communicate with FitBit
       @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{@token}"
     end    
   end
   
+  #After authorizing FitBit, user is given verifier code on this page that it must enter in authorize page
   def verifier
     @verifier = params[:oauth_verifier]
   end
   
+  #fitbit/collect is Subscriber Endpoint that receives push notifications from FitBit and subsequently 
+  #creates Notifications
   def collect
     if params[:collectionType]
       Notification.create(:collectionType => params[:collectionType], :date => params[:date], 
@@ -70,6 +76,7 @@ class FitbitController < ApplicationController
     end
   end
   
+  # Displays notifications
   def index 
     # Load the existing yml config
     config = begin
