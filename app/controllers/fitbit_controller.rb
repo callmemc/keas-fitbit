@@ -3,7 +3,7 @@
 
 class FitbitController < ApplicationController
   
-  def authorize
+  def create
     # Load the existing yml config
     config = begin
       Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
@@ -11,29 +11,10 @@ class FitbitController < ApplicationController
       puts "Could not parse YAML: #{e.message}"
       exit
     end
-    @client = Fitgem::Client.new(config[:oauth])  #passed as hidden field
     
-    #Already have a FitBit account
-    if config[:oauth][:token] && config[:oauth][:secret]
-      @fitbit = true
-    #Need to be directed to FitBit verify page
-    else
-      request_token = @client.request_token
-      token = request_token.token                           
-      @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{token}"
-    end
-  end
-  
-  def verifier
-    @verifier = params[:oauth_verifier]
-  end
-  
-  def verify
-    client = params[:client]
-    request_token = client.request_token
-    token = request_token.token
-    secret = request_token.secret
-    
+    client = session[:client]
+    token = params[:token]
+    secret = params[:secret]
     verifier = params[:verifier]
         
     begin
@@ -43,12 +24,7 @@ class FitbitController < ApplicationController
       exit
     end
 
-    puts 'Verifier is: '+verifier
-    puts "Token is:    "+access_token.token
-    puts "Secret is:   "+access_token.secret
-
     user_id = client.user_info['user']['encodedId']
-    puts "Current User is: "+user_id
 
     config[:oauth].merge!(:token => access_token.token, :secret => access_token.secret, :user_id => user_id)
 
@@ -57,7 +33,33 @@ class FitbitController < ApplicationController
     
     #Create subscription using fitgem
     client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user
-          
+  end
+  
+  def authorize
+    # Load the existing yml config
+    config = begin
+      Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
+    rescue ArgumentError => e
+      puts "Could not parse YAML: #{e.message}"
+      exit
+    end
+    @client = Fitgem::Client.new(config[:oauth])  #passed as hidden field
+    session[:client] = @client
+    
+    #Already have a FitBit account
+    if config[:oauth][:token] && config[:oauth][:secret]
+      @fitbit = true
+    #Need to be directed to FitBit verify page
+    else
+      request_token = @client.request_token
+      @token = request_token.token
+      @secret = request_token.secret                                 
+      @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{@token}"
+    end    
+  end
+  
+  def verifier
+    @verifier = params[:oauth_verifier]
   end
   
   def collect
@@ -81,7 +83,6 @@ class FitbitController < ApplicationController
     # Then display subscription info
     if config[:oauth][:token] && config[:oauth][:secret]
       @fitbit = true
-=begin
       begin
         access_token = client.reconnect(config[:oauth][:token], config[:oauth][:secret])
       rescue Exception => e
@@ -89,7 +90,6 @@ class FitbitController < ApplicationController
         exit
       end
       @subscriptions = client.subscriptions(:type => :all)
-=end
     #Provide link to Add FitBit
     else
       @fitbit = false

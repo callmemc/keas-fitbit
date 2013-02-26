@@ -22,10 +22,12 @@ FitBit::Application.routes.draw do
       member do
         post 'index'
         get 'authorize'
+        post 'verify'
       end      
       collection do
         get 'authorize'
         get 'index'
+        post 'verify'
         get 'verify'
         get 'verifier'
       end
