@@ -17,6 +17,8 @@ FitBit::Application.routes.draw do
       end
     end
     
+    resources :collect
+    
     resources :fitbit do
       #routes HTTP Post request
       member do
@@ -31,6 +33,7 @@ FitBit::Application.routes.draw do
         get 'verify'
         get 'verifier'
         post 'collect'
+        get 'test'
       end
     end
 
