@@ -10,8 +10,6 @@
 <% end %>
 <br>
 
-<%= link_to "Add Fitbit Account", {:controller => 'fitbit', :action => 'authorize'} %>
-
 <% if @fitbit == true %>
 	Subscriptions:
 	<br><%= @subscriptions %>
