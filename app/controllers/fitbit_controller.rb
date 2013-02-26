@@ -93,7 +93,7 @@ class FitbitController < ApplicationController
       begin
         access_token = client.reconnect(config[:oauth][:token], config[:oauth][:secret])
       rescue Exception => e
-        puts "Error: Could not reconnect Fitgem::Client due to invalid keys in .fitgem.yml"
+        puts "Error: Could not reconnect Fitgem::Client due to invalid keys in fitgem.yml"
         exit
       end
       @subscriptions = client.subscriptions(:type => :all)
