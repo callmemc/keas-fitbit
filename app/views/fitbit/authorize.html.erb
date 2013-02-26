@@ -1,12 +1,14 @@
 <% if @fitbit == true %>
  You already have a FitBit account linked to Keas!
-<% elsif @verifier %>
-	Congratulations! Your account has been verified!
-	<br>FYI Verifier: <%= @verifier %>
-	<br><br>
-	<%= link_to "BACK to MICHELLE'S Fitbit Data", {:controller => 'fitbit', :action => 'index'} %>
 <% else %>
-	Go to the <%= link_to "FitBit Authorization Page", @auth_url %> and click 'Allow' to link your FitBit account to Keas!
+	Go to the <%= link_to "FitBit Authorization Page", @auth_url, :target => "_blank" %> and click 'Allow' to link your FitBit account to Keas! Then enter the verifier on this page.	
+	
+	<%= form_tag "/fitbit/verify" do %>
+	  <%= text_field_tag "verifier", "Enter your verifier here" %>
+		<%= hidden_field_tag "client", @client %>
+	  <%= submit_tag "Submit" %>
+	<% end %>
+	
 <% end %>
 
 <br><br>

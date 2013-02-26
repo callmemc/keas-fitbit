@@ -27,6 +27,7 @@ FitBit::Application.routes.draw do
         get 'authorize'
         get 'index'
         get 'verify'
+        get 'verifier'
       end
     end
 
