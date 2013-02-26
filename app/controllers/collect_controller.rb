@@ -3,7 +3,9 @@ require 'pp'
 class CollectController < ApplicationController  
   def create
     pp params[:updates]
-    json_file = params[:updates].original_filename
+    json_file = params[:updates].tempfile
+    pp json_file
+    #json_file = params[:updates].original_filename
     json_string = File.read(json_file)
     
     puts json_string
