@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130222235653) do
+ActiveRecord::Schema.define(:version => 20130303010843) do
 
   create_table "notifications", :force => true do |t|
     t.string   "collectionType"
@@ -19,6 +19,14 @@ ActiveRecord::Schema.define(:version => 20130222235653) do
     t.string   "ownerId"
     t.string   "ownerType"
     t.string   "subscriptionId"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "resource_collections", :force => true do |t|
+    t.string   "resource_name"
+    t.string   "date"
+    t.text     "collected"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -34,6 +42,14 @@ ActiveRecord::Schema.define(:version => 20130222235653) do
     t.string   "final_token"
     t.string   "final_secret"
     t.string   "fitbit_user_id"
+  end
+
+  create_table "walking_statistics", :force => true do |t|
+    t.decimal  "distance_in_miles"
+    t.string   "date"
+    t.string   "time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

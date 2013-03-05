@@ -17,7 +17,7 @@ FitBit::Application.routes.draw do
       end
     end
     
-    resources :collect
+    resources :notification
     
     resources :fitbit do
       #routes HTTP Post request

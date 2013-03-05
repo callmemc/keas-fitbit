@@ -3,7 +3,8 @@
 
 class FitbitController < ApplicationController
   
-  #Authorizes Fitgem::Client with verifier entered b usery
+  #Authorizes Fitgem::Client with verifier entered by user
+  #Creates a device
   def create
     # Load the existing yml config
     config = begin
@@ -34,6 +35,9 @@ class FitbitController < ApplicationController
     
     #Create subscription using fitgem
     client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user
+    
+    #SHOULD BE CREATING NEW DEVICE
+    
   end
   
   #Displays link to authorize FitBit account and field to enter verifier
@@ -87,8 +91,7 @@ class FitbitController < ApplicationController
     
     client.remove_subscriptions(:type => :all, :subscription_id => "24N6YJ", :subscriber_id => "1")    
   end
-  
-  
+   
   # Displays notifications
   def index 
     # Load the existing yml config
@@ -114,6 +117,8 @@ class FitbitController < ApplicationController
     else
       @fitbit = false
     end  
+    
+    @total_distance = WalkingStatistic.all.sum(&:distance_in_miles)
   end
  
 end
