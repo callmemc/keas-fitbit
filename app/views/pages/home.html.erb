@@ -1,3 +1,7 @@
-<%= link_to "View ADAM'S Fitbit Data", user_token_path(:id => 12) %>
-<br>
-<%= link_to "Michelle Test Site", {:controller => 'fitbit', :action => 'index'} %>
+<% if current_user %>
+	Welcome <%= current_user.first_name %>!
+	<br><br>
+	<%= link_to "View FitBit Data", {:controller => 'fitbit', :action => 'index'} %>
+<% else %>
+	Please login or sign up to view FitBit data
+<% end %>

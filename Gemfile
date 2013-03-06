@@ -29,6 +29,7 @@ end
 
 gem 'rake', '0.9.2.2'
 
+gem 'devise'
 # Use unicorn as the web server
 # gem 'unicorn'
 

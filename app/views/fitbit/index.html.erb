@@ -9,6 +9,7 @@
 	<% end %>
 </div>
 -->
+
 <!--List Subscriptions-->
 <!--
 <% if @fitbit == true %>
@@ -17,7 +18,7 @@
 		<%= @subscriptions %>
 	</div>
 <% else %>
- <%= link_to "Add Fitbit Account", {:controller => 'fitbit', :action => 'authorize'} %>
+	<%= link_to "Add Fitbit Account", {:controller => 'fitbit', :action => 'authorize'} %>
 <% end %>
 -->
 

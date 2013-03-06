@@ -1,5 +1,6 @@
 require 'pp'
 
+# After receiving notification from FitBit subscription, need to create Keas HealthStatistic
 class NotificationController < ApplicationController  
   def create
     # Load the existing yml config
@@ -9,14 +10,10 @@ class NotificationController < ApplicationController
       puts "Could not parse YAML: #{e.message}"
       exit
     end
-    client = Fitgem::Client.new(config[:oauth])  #passed as hidden field
-    
-    pp params[:updates]
+
     json_file = params[:updates].tempfile
     json_string = File.read(json_file)
-
-    parsed_json = ActiveSupport::JSON.decode(json_string)   
-    
+    parsed_json = ActiveSupport::JSON.decode(json_string)       
     #iterate through notifications within json file
     parsed_json.each do |notification|
       notification.symbolize_keys!      
@@ -30,14 +27,21 @@ class NotificationController < ApplicationController
       if (notification[:collectionType] == "activities")
         resource = 'activities'
         
+        #Need to initialize new FitBit client for every notification
+        consumer_key = config[:oauth][:consumer_key]
+        consumer_secret = config[:oauth][:consumer_secret]
+        fitbit_device = Device.where("name = ? AND owner_id = ?", 'fitbit', ownerId).first  #Assumes there's only one device
+        client = Fitgem::Client.new(:consumer_key => consumer_key, 
+        :consumer_secret => consumer_secret,
+        :token => fitbit_device[:token], 
+        :secret => fitbit_device[:secret])
+        
         #Look up if existing ResourceCollection with resource_name and date
-        resource_collection = ResourceCollection.where("resource_name = ? AND date = ?", resource, date).first
-        
-        
+        resource_collection = fitbit_device.resource_collections.where("resource_name = ? AND date = ?", resource, date).first               
         #If collection for that day doesn't exist, create a new one
         if resource_collection.blank?
-          resource_collection = ResourceCollection.create(:resource_name => resource, 
-          :collected => Hash.new, :date => date)
+          resource_collection = ResourceCollection.create(:device_id => fitbit_device.id, :resource_name => resource, 
+          :date => date, :collected => Hash.new)
         end
         
         activities = client.activities_on_date(date)["activities"]  #Array        
@@ -47,8 +51,8 @@ class NotificationController < ApplicationController
           if not resource_collection[:collected].has_key?(logId)     #if not already in collected,  
             resource_collection[:collected][logId] = logItem         #1) insert into hash, 
             if logItem["name"] == "Walking"                                                                  
-              WalkingStatistic.create(:time => logItem["startTime"], #and 2) create statistic
-              :date => date, :distance_in_miles => logItem["distance"])
+              WalkingStatistic.create(:user_id => fitbit_device.user_id, #and 2) create statistic
+              :time => logItem["startTime"], :date => date, :distance_in_miles => logItem["distance"])
             end
           end
         end
