@@ -27,11 +27,11 @@ group :production do
   gem 'pg'
 end
 
-gem 'rake', '0.9.2.2'
+gem 'rake', '~> 0.9.2.2'
 
 gem 'devise'
 
-gem 'resque', :require => "resque/server"
+gem 'resque', "~> 1.22.0"
 
 # Use unicorn as the web server
 # gem 'unicorn'

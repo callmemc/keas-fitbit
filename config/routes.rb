@@ -1,4 +1,6 @@
 FitBit::Application.routes.draw do
+  match ''
+  
   devise_for :users
 
     resources :user_tokens do
@@ -44,6 +46,8 @@ FitBit::Application.routes.draw do
     match '/fitbit_reply' => 'user_tokens#init'
 
     root :to => 'pages#home'
+    
+    
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
