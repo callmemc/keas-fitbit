@@ -1,51 +1,50 @@
 FitBit::Application.routes.draw do
-  match ''
   
   devise_for :users
 
     resources :user_tokens do
-      collection do
-          get 'fitbit_reply'
-      end
-      member do
-          get 'show_activity'
-          get 'show_activity_statistics'
-          get 'show_activities_on_date'
-          get 'show_activities'
-      end
+    collection do
+        get 'fitbit_reply'
     end
-
-    resources :pages do
-      collection do
-        get 'home'
-      end
+    member do
+        get 'show_activity'
+        get 'show_activity_statistics'
+        get 'show_activities_on_date'
+        get 'show_activities'
     end
-    
-    resources :notification
-    
-    resources :fitbit do
-      #routes HTTP Post request
-      member do
-        post 'index'
-        get 'authorize'
-        post 'verify'
-      end      
-      collection do
-        get 'authorize'
-        get 'index'
-        post 'verify'
-        get 'verify'
-        get 'verifier'
-        post 'collect'
-        get 'test'
-        get 'remove_sub'
-      end
+  end
+
+  resources :pages do
+    collection do
+      get 'home'
     end
+  end
+  
+  resources :notification
+  
+  resources :fitbit do
+    #routes HTTP Post request
+    member do
+      post 'index'
+      get 'authorize'
+      post 'verify'
+    end      
+    collection do
+      get 'authorize'
+      get 'index'
+      post 'verify'
+      get 'verify'
+      get 'verifier'
+      post 'collect'
+      get 'test'
+      get 'remove_sub'
+    end
+  end
 
-    #match '/fitbit/authorize' => {:controller => 'fitbit', :action => 'authorize'}
-    match '/fitbit_reply' => 'user_tokens#init'
+  #match '/fitbit/authorize' => {:controller => 'fitbit', :action => 'authorize'}
+  match '/fitbit_reply' => 'user_tokens#init'
 
-    root :to => 'pages#home'
+  root :to => 'pages#home'
     
     
 
