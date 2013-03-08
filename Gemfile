@@ -30,6 +30,9 @@ end
 gem 'rake', '0.9.2.2'
 
 gem 'devise'
+
+gem 'resque', :require => "resque/server"
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
