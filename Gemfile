@@ -27,7 +27,9 @@ group :production do
   gem 'pg'
 end
 
-gem 'rake', '~> 0.9.2.2'
+gem 'rake', '~> 10.0.3'
+
+#gem 'rake', '~> 0.9.2.2'
 
 gem 'devise'
 
