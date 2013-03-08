@@ -11,11 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306001746) do
+ActiveRecord::Schema.define(:version => 20130305211528) do
 
   create_table "devices", :force => true do |t|
     t.string   "name"
-    t.integer  "user_id",    :limit => 255
+    t.integer  "user_id"
     t.string   "token"
     t.string   "secret"
     t.datetime "created_at"
