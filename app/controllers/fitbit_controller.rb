@@ -28,12 +28,10 @@ class FitbitController < ApplicationController
 
     user_id = client.user_info['user']['encodedId']
 
-###    config[:oauth].merge!(:token => access_token.token, :secret => access_token.secret, :user_id => user_id)
     #:owner_id => user_id might be a bit confusing
     Device.create(:name => 'fitbit', :user_id => current_user.id, :owner_id => user_id, 
     :token => access_token.token, :secret => access_token.secret )
     # Write the whole oauth token set back to the config file
-###    File.open("config/fitgem.yml", "w") {|f| f.write(config.to_yaml) }
     
     #Create subscription using fitgem
     client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user
