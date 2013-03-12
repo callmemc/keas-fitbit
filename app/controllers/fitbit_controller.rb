@@ -80,9 +80,7 @@ class FitbitController < ApplicationController
       exit
     end
     
-#NEED TO EDIT WITH NEWLY MOVED TOKEN AND SECRET
-    client = Fitgem::Client.new(config[:oauth])
-    
+    client = Fitgem::Client.new(config[:oauth])    
     client.remove_subscriptions(:type => :all, :subscription_id => "24N6YJ", :subscriber_id => "1")    
   end
    
