@@ -2,7 +2,7 @@ FitBit::Application.routes.draw do
   
   devise_for :users
 
-    resources :user_tokens do
+  resources :user_tokens do
     collection do
         get 'fitbit_reply'
     end
