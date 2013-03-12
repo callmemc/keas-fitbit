@@ -1,4 +1,6 @@
 FitBit::Application.configure do
+  ENV["REDISTOGO_URL"] ||= "redis://redistogo:00b05725a37066e1b63d591bd4ac1326@dory.redistogo.com:10613/"
+  
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
