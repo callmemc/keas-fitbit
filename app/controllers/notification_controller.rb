@@ -7,8 +7,8 @@ class NotificationController < ApplicationController
     json_file = params[:updates].tempfile
     json_string = File.read(json_file)
     parsed_json = ActiveSupport::JSON.decode(json_string)       
-    Rails.logger.info 'PARSED JSON'
-    Rails.logger.info parsed_json
+    #Rails.logger.info 'PARSED JSON'
+    #Rails.logger.info parsed_json
     # Iterate through notifications within json file
     parsed_json.each do |notification|
       notification.symbolize_keys!      
@@ -22,9 +22,9 @@ class NotificationController < ApplicationController
       n = Notification.create(:collectionType => collectionType, :date => date, 
       :ownerId => ownerId, :ownerType => ownerType, :subscriptionId => subscriptionId)
       # Enqueue Notification
-      Rails.logger.info 'before enqueue'
+      #Rails.logger.info 'before enqueue'
       Resque.enqueue(StatisticCreator, n.id)
-      Rails.logger.info 'after enqueue'
+      #Rails.logger.info 'after enqueue'
     end
   end
 end
