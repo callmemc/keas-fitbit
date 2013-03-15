@@ -41,7 +41,7 @@ class MeasurementCreator
           puts 'Creating Walking Measurement'
           m = Measurement.where("health_statistic_id = ?", WALKING_ID).find_or_initialize_by_logId(logId)
           m.update_attributes(:user_id => fitbit_device.user_id, :health_statistic_id => WALKING_ID, 
-          :source => 'fitbit', :value => logItem["steps"], :seconds => logItem["duration"]/1000d)    
+          :source => 'fitbit', :value => logItem["steps"], :seconds => logItem["duration"]/1000)    
         end
 #        end
       end
