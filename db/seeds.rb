@@ -7,5 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-Notification.create!(:collectionType => "user", :date => '2010-03-01', :ownerId => "24N6YJ",
-:ownerType => "user", :subscriptionId => "24N6YJ")
+HealthStatistic.create(:name => 'walking', :description => 'walking')
+HealthStatistic.create(:name => 'body_weight', :description => 'weight')
+HealthStatistic.create(:name => 'body_fat', :description => '% body fat')

@@ -1,0 +1,3 @@
+WALKING_ID = 1
+FAT_ID = 2
+WEIGHT_ID = 3

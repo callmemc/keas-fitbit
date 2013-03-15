@@ -112,7 +112,14 @@ class FitbitController < ApplicationController
       end
     end
     
-    @total_distance = WalkingStatistic.all.sum(&:distance_in_miles)
+    @walking_measurements = Measurement.where("health_statistic_id = ? AND user_id = ?", WALKING_ID, current_user)
+    puts 'walking measurements'
+    puts @walking_measurements
+    @total_steps = @walking_measurements.sum(&:value)
+    @total_seconds = @walking_measurements.sum(&:seconds)
+    
+    @fat_measurements = Measurement.where("health_statistic_id = ? AND user_id = ?", FAT_ID, current_user)
+    @weight_measurements = Measurement.where("health_statistic_id = ? AND user_id = ?", WEIGHT_ID, current_user)
   end
  
 end
