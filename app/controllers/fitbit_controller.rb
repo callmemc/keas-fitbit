@@ -1,6 +1,3 @@
-#http://www.fitbitclient.com/guide/getting-started
-#http://keas-fitbit.herokuapp.com/fitbit?oauth_token=c03f209de94008314375dfc3ec922340&oauth_verifier=mc51um9ohths7l80jb71h7513e
-
 class FitbitController < ApplicationController
   
   #Authorizes Fitgem::Client with verifier entered by user
@@ -29,12 +26,11 @@ class FitbitController < ApplicationController
     user_id = client.user_info['user']['encodedId']
 
     #:owner_id => user_id might be a bit confusing
-    Device.create(:name => 'fitbit', :user_id => current_user.id, :owner_id => user_id, 
+    device = Device.create(:name => 'fitbit', :user_id => current_user.id, :owner_id => user_id, 
     :token => access_token.token, :secret => access_token.secret )
-    # Write the whole oauth token set back to the config file
-    
+        
     #Create subscription using fitgem
-    client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user
+    client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user fix!!!
     
     respond_to do |format|
       format.html { redirect_to '/fitbit' }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130315102244) do
+ActiveRecord::Schema.define(:version => 20130322162227) do
 
   create_table "devices", :force => true do |t|
     t.string   "name"
@@ -21,6 +21,22 @@ ActiveRecord::Schema.define(:version => 20130315102244) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "owner_id"
+  end
+
+  create_table "fb_collected_logs", :force => true do |t|
+    t.integer  "logId"
+    t.integer  "device_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "fb_collected_logs", ["logId"], :name => "index_fitbit_collected_ids_on_logId", :unique => true
+
+  create_table "fitbit_resources", :force => true do |t|
+    t.string   "name"
+    t.integer  "health_statistic_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
   end
 
   create_table "health_statistics", :force => true do |t|
@@ -39,6 +55,8 @@ ActiveRecord::Schema.define(:version => 20130315102244) do
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
     t.integer  "logId"
+    t.datetime "measured_at"
+    t.integer  "fb_collected_log_id"
   end
 
   create_table "notifications", :force => true do |t|

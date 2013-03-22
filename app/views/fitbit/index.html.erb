@@ -1,27 +1,3 @@
-<!--List all resources collected-->
-<!--Resource collections stored by day-->
-
-<!--
-<div>
-	<h2>Resource Collections</h2>
-	<% ResourceCollection.all.each do |rc| %>
-		<%= rc[:collected] %><br>
-	<% end %>
-</div>
--->
-
-<!--List Subscriptions-->
-<!--
-<% if @fitbit == true %>
-	<div>
-		<h2>Subscriptions</h2>
-		<%= @subscriptions %>
-	</div>
-<% else %>
-	<%= link_to "Add Fitbit Account", {:controller => 'fitbit', :action => 'authorize'} %>
-<% end %>
--->
-
 <% if @fitbit == true %>
 	<div>
 		<h2>Walking Measurements</h2>
@@ -36,7 +12,7 @@
 					<tr>
 						<td><%= m[:value] %></td>
 						<td><%= Time.at(m[:seconds]).utc.strftime("%H:%M:%S") %></td>
-						<td><%= m[:created_at] %></td>
+						<td><%= m[:measured_at] %></td>
 					</tr>
 				<% end %>
 			</table>
@@ -59,7 +35,7 @@
 				<% @fat_measurements.each do |m| %>
 					<tr>
 						<td><%= m[:value] %></td>
-						<td><%= m[:created_at] %></td>
+						<td><%= m[:measured_at] %></td>
 					</tr>
 				<% end %>
 			</table>
@@ -79,7 +55,7 @@
 				<% @weight_measurements.each do |m| %>
 					<tr>
 						<td><%= m[:value] %></td>
-						<td><%= m[:created_at] %></td>
+						<td><%= m[:measured_at] %></td>
 					</tr>
 				<% end %>
 			</table>

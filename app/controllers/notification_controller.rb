@@ -5,7 +5,8 @@ class NotificationController < ApplicationController
   def create
     json_file = params[:updates].tempfile
     json_string = File.read(json_file)
-    parsed_json = ActiveSupport::JSON.decode(json_string)       
+    parsed_json = ActiveSupport::JSON.decode(json_string)    
+       
 
     # Iterate through notifications within json file
     parsed_json.each do |notification|
@@ -16,13 +17,10 @@ class NotificationController < ApplicationController
       ownerType = notification[:ownerType]
       subscriptionId = notification[:subscriptionId]
       
-      # Create notification item to be enqueued
-      n = Notification.create(:collectionType => collectionType, :date => date, 
-      :ownerId => ownerId, :ownerType => ownerType, :subscriptionId => subscriptionId)
-      
-    # Enqueue Notification
-#      Resque.enqueue(StatisticCreator, n.id)
-      Resque.enqueue(MeasurementCreator, n.id)
+      # Enqueue notification hash
+      Resque.enqueue(MeasurementCreator, {:collectionType => collectionType, :date => date,
+        :ownerId => ownerId, :ownerType => ownerType, :subscriptionId => subscriptionId})
+
     end
   end
 end
