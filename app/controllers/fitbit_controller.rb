@@ -1,5 +1,6 @@
 class FitbitController < ApplicationController
-  
+
+=begin  
   #Authorizes Fitgem::Client with verifier entered by user
   #Creates a FitBit device
   def create
@@ -36,6 +37,7 @@ class FitbitController < ApplicationController
       format.html { redirect_to '/fitbit' }
     end
   end
+=end
   
   #Displays link to authorize FitBit account and field to enter verifier
   def authorize
@@ -46,24 +48,53 @@ class FitbitController < ApplicationController
       puts "Could not parse YAML: #{e.message}"
       exit
     end
-    @client = Fitgem::Client.new(config[:oauth])  #passed as hidden field
-    session[:client] = @client
+    client = Fitgem::Client.new(config[:oauth])  #passed as hidden field
+#    session[:client] = @client
+    request_token = client.request_token
+    token = request_token.token
+    secret = request_token.secret
     
-    #Already have a FitBit account
-### if config[:oauth][:token] && config[:oauth][:secret]
-###      @fitbit = true
-    #Need to be directed to FitBit verify page
-###    else
-    request_token = @client.request_token
-    @token = request_token.token
-    @secret = request_token.secret
-    @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{@token}" #URL to authorize Keas with FitBit
-###    end    
+    RequestToken.create(:token => token, :secret => secret, :user_id => current_user.id)
+    
+    @auth_url = "http://www.fitbit.com/oauth/authorize?oauth_token=#{token}" #URL to authorize Keas with FitBit 
   end
   
   #After authorizing FitBit, user is given verifier code on this page that it must enter in authorize page
   def verifier
-    @verifier = params[:oauth_verifier]
+    token = params[:oauth_token]  #request token
+    verifier = params[:oauth_verifier]
+    if RequestToken.where("token = ?", token).first == nil
+      @error = true
+    else
+      request_token = RequestToken.where("token = ?", token).first
+      secret = request_token[:secret]
+      
+      config = begin
+        Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
+      rescue ArgumentError => e
+        puts "Could not parse YAML: #{e.message}"
+        exit
+      end
+      
+      client = Fitgem::Client.new(config[:oauth]) 
+      
+      begin
+        access_token = client.authorize(token, secret, { :oauth_verifier => verifier })
+      rescue Exception => e
+        @error = true
+        puts "Error: Could not authorize Fitgem::Client with supplied oauth verifier: " + verifier
+        # exit
+      end
+      user_id = client.user_info['user']['encodedId']
+      user = request_token.user
+
+      #:owner_id => user_id might be a bit confusing
+      device = Device.create(:name => 'fitbit', :user_id => user.id, :owner_id => user_id, 
+      :token => access_token.token, :secret => access_token.secret )
+
+      #Create subscription using fitgem
+      client.create_subscription(:type => :all, :subscription_id => user_id)  #one subscription per user fix!!!      
+    end
   end
     
   def remove_sub

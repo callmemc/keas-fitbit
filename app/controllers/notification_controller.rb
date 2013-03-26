@@ -7,7 +7,6 @@ class NotificationController < ApplicationController
     json_string = File.read(json_file)
     parsed_json = ActiveSupport::JSON.decode(json_string)    
        
-
     # Iterate through notifications within json file
     parsed_json.each do |notification|
       notification.symbolize_keys!      
@@ -20,7 +19,10 @@ class NotificationController < ApplicationController
       # Enqueue notification hash
       Resque.enqueue(MeasurementCreator, {:collectionType => collectionType, :date => date,
         :ownerId => ownerId, :ownerType => ownerType, :subscriptionId => subscriptionId})
-
+    end
+    
+    respond_to do |format|
+      format.html { redirect_to '/fitbit' }
     end
   end
 end
