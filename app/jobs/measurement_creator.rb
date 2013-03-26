@@ -51,10 +51,13 @@ class MeasurementCreator
         puts logId
         
         if fitbit_device.fb_collected_logs == [] || fitbit_device.fb_collected_logs.find_by_logId(logId) == nil #log only things not yet collected
+puts 'evaluated to true'          
           fb_log = FbCollectedLog.create(:device_id => fitbit_device.id, :logId => logId)
+puts 'before create_body_measurements called'
           m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
 puts 'create_body_measurements called'
         else
+puts 'evaluated to false'
           fb_log = fitbit_device.fb_collected_logs.find_by_logId(logId)
           m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
 puts 'update_body_measurements called'
