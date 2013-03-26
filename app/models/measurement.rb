@@ -21,9 +21,12 @@ class Measurement < ActiveRecord::Base
   end
   
   def self.create_body_measurements(fatItem, weightItem, user_id, date, fb_log_id)
+    puts 'create_body_measurements invoked'
+    
     datetime = datetime(date, fatItem["time"])
     
     #fat item
+    puts 'Creating Fat & Weight Measurements'
     Measurement.create(:user_id => user_id, :health_statistic_id => FAT_ID, 
     :fb_collected_log_id => fb_log_id, :source => 'fitbit', 
     :value => fatItem["fat"], :measured_at => datetime)
@@ -34,12 +37,15 @@ class Measurement < ActiveRecord::Base
   end
   
   def self.update_body_measurements(fatItem, weightItem, date, fb_log_id)
+    puts 'update_body_measurements invoked'
+    
     datetime = datetime(date, fatItem["time"])    
     fb_log = FbCollectedLog.find(fb_log_id)
     fatm = fb_log.measurements.where("health_statistic_id = ?", FAT_ID).first
     weightm = fb_log.measurements.where("health_statistic_id = ?", WEIGHT_ID).first
     
     #UPDATING ATTRIBUTES
+    puts 'Updating Fat & Weight Measurements'
     fatm.update_attributes(:value => fatItem["fat"], :measured_at => datetime)
     weightm.update_attributes(:value => weightItem["weight"], :measured_at => datetime)
   end

@@ -121,8 +121,6 @@ class FitbitController < ApplicationController
     
     client = Fitgem::Client.new(config[:oauth])  
     # With USER CREDENTIALS token and secret, try to use them to reconstitute a usable Fitgem::Client
-    # Then display subscription info
-    
     if current_user
       if fitbit_device = current_user.devices.where("name = ?", 'fitbit').first #found device
         @fitbit = true
@@ -140,8 +138,6 @@ class FitbitController < ApplicationController
     end
     
     @walking_measurements = Measurement.where("health_statistic_id = ? AND user_id = ?", WALKING_ID, current_user)
-    puts 'walking measurements'
-    puts @walking_measurements
     @total_steps = @walking_measurements.sum(&:value)
     @total_seconds = @walking_measurements.sum(&:seconds)
     
