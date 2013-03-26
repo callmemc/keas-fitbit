@@ -46,7 +46,9 @@ class MeasurementCreator
       pp weight_log
             
       fat_log.zip(weight_log).each do |fatItem, weightItem|
+        puts 'fat/weight log looping'
         logId = fatItem["logId"]  # shares log Id with weightItem
+        puts logId
         
         if fitbit_device.fb_collected_logs == [] || fitbit_device.fb_collected_logs.find_by_logId(logId) == nil #log only things not yet collected
           fb_log = FbCollectedLog.create(:device_id => fitbit_device.id, :logId => logId)
