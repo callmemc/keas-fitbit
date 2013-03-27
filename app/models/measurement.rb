@@ -21,8 +21,6 @@ class Measurement < ActiveRecord::Base
   end
   
   def self.create_body_measurements(fatItem, weightItem, user_id, date, fb_log_id)
-    puts 'create_body_measurements invoked'
-    
     datetime = datetime(date, fatItem["time"])
     
     #fat item
@@ -37,8 +35,6 @@ class Measurement < ActiveRecord::Base
   end
   
   def self.update_body_measurements(fatItem, weightItem, date, fb_log_id)
-    puts 'update_body_measurements invoked'
-    
     datetime = datetime(date, fatItem["time"])    
     fb_log = FbCollectedLog.find(fb_log_id)
     fatm = fb_log.measurements.where("health_statistic_id = ?", FAT_ID).first
