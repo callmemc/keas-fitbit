@@ -73,15 +73,4 @@ class FitbitController < ApplicationController
     
     return Fitgem::Client.new(config[:oauth])  # new client
   end
-  
-  def reconnect_client
-    config = begin
-      Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
-    rescue ArgumentError => e
-      puts "Could not parse YAML: #{e.message}"
-    end
-    
-    return Fitgem::Client.new(config[:oauth])  # new client
-  end
- 
 end
