@@ -22,6 +22,9 @@ class MeasurementCreator
     consumer_secret = config[:oauth][:consumer_secret]
     fitbit_device = Device.where("name = ? AND owner_id = ?", 'fitbit', ownerId).first
     
+puts 'fibit_device id'
+puts fitbit_device.id
+    
     client = Fitgem::Client.new(:consumer_key => consumer_key, :consumer_secret => consumer_secret, :token => fitbit_device[:token], :secret => fitbit_device[:secret])
 
     # ================= GETTING RESOURCES =================== #    
