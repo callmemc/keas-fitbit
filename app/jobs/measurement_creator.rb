@@ -1,31 +1,23 @@
 require 'pp'
+include ClientHelper
+
 class MeasurementCreator  
   @queue = :notifications
   
   def self.perform(notification)
-    pp notification
-    
+    pp notification  
     date = notification["date"]
     ownerId = notification["ownerId"]
     collectionType = notification["collectionType"]
-    
-    # Load the existing yml config
-    config = begin
-      Fitgem::Client.symbolize_keys(YAML.load(File.open("config/fitgem.yml")))
-    rescue ArgumentError => e
-      puts "Could not parse YAML: #{e.message}"
-      exit
-    end
-        
+
     #Initialize new FitBit client for current_user
-    consumer_key = config[:oauth][:consumer_key]
-    consumer_secret = config[:oauth][:consumer_secret]
     fitbit_device = Device.where("name = ? AND owner_id = ?", 'fitbit', ownerId).first
+    if fitbit_device == nil
+      puts "Notification can't be processed: Fitbit account not attached to any keas user"
+      return
+    end
     
-puts 'fibit_device id'
-puts fitbit_device.id
-    
-    client = Fitgem::Client.new(:consumer_key => consumer_key, :consumer_secret => consumer_secret, :token => fitbit_device[:token], :secret => fitbit_device[:secret])
+    client = reconnect_client(fitbit_device[:token], fitbit_device[:secret])
 
     # ================= GETTING RESOURCES =================== #    
     if collectionType == 'activities'
@@ -58,7 +50,6 @@ puts fitbit_device.id
           m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
         end
       end      
-    end
-            
+    end     
   end
 end
