@@ -13,7 +13,7 @@ class Measurement < ActiveRecord::Base
     stat = resource.health_statistic
     
     if stat.name == "walking"
-      puts 'Creating Walking Measurement'
+#      puts 'Creating Walking Measurement'
       Measurement.create(:user_id => user_id, :health_statistic_id => WALKING_ID, 
       :fb_collected_log_id => fb_log_id, :source => 'fitbit', :value => logItem["steps"], 
       :seconds => logItem["duration"]/1000, :measured_at => datetime(date, time))
@@ -24,7 +24,7 @@ class Measurement < ActiveRecord::Base
     datetime = datetime(date, fatItem["time"])
     
     #fat item
-    puts 'Creating Fat & Weight Measurements'
+#    puts 'Creating Fat & Weight Measurements'
     Measurement.create(:user_id => user_id, :health_statistic_id => FAT_ID, 
     :fb_collected_log_id => fb_log_id, :source => 'fitbit', 
     :value => fatItem["fat"], :measured_at => datetime)
@@ -41,7 +41,7 @@ class Measurement < ActiveRecord::Base
     weightm = fb_log.measurements.where("health_statistic_id = ?", WEIGHT_ID).first
     
     #UPDATING ATTRIBUTES
-    puts 'Updating Fat & Weight Measurements'
+#    puts 'Updating Fat & Weight Measurements'
     fatm.update_attributes(:value => fatItem["fat"], :measured_at => datetime)
     weightm.update_attributes(:value => weightItem["weight"], :measured_at => datetime)
   end

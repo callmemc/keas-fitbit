@@ -5,7 +5,7 @@ class MeasurementCreator
   @queue = :notifications
   
   def self.perform(notification)
-    pp notification  
+#    pp notification  
     date = notification["date"]
     ownerId = notification["ownerId"]
     collectionType = notification["collectionType"]
@@ -22,8 +22,8 @@ class MeasurementCreator
     # ================= GETTING RESOURCES =================== #    
     if collectionType == 'activities'
       log = client.activities_on_date(date)["activities"]
-      puts 'Activities Log'
-      puts log     
+#      puts 'Activities Log'
+#      puts log     
       log.each do |logItem|   #Each logItem is a Hash
         logId = logItem["logId"]
         collected_logs = user.fb_collected_logs
@@ -34,27 +34,20 @@ class MeasurementCreator
       end
     elsif collectionType == 'body'
       fat_log = client.fat_on_date(date)["fat"]      
-      puts 'Fat Log'
-      pp fat_log
-      
+#      puts 'Fat Log'
+#      pp fat_log      
       weight_log = client.weight_on_date(date)["weight"]
-      puts 'Weight Log'
-      pp weight_log
-      
-      #LOG NEEDS TO BE ASSIGNED TO USER, NOT DEVICE, IN CASE A USER ADDS AND DELETES A FITBIT DEVICE
-            
+#      puts 'Weight Log'
+#      pp weight_log
+                  
       fat_log.zip(weight_log).each do |fatItem, weightItem|
         logId = fatItem["logId"]  # shares log Id with weightItem
         collected_logs = user.fb_collected_logs
         if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
-          puts 'if'
           fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-          puts 'create'
           m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
         else
-          puts 'else'
           fb_log = user.fb_collected_logs.find_by_logId(logId)
-          puts 'update'
           m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
         end
       end      
