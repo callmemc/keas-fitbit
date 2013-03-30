@@ -8,6 +8,9 @@
 </head>
 <body>
 
+<%= link_to 'Home', root_path %>
+<%= link_to "Keas Profile", {:controller => 'pages', :action => 'profile'} %>
+<%= link_to "Fitbit Settings", {:controller => 'fitbit', :action => 'index'} %>
 <%= render 'devise/menu/login_items' %>
 <%= render 'devise/menu/registration_items' %>
 

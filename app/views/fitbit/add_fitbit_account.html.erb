@@ -1,0 +1,8 @@
+<% if @error %>
+	Error! Authentication did not work.
+<% else %>
+	Authentication successful!
+<% end %>
+
+<br><br>
+<%= link_to "Back to Home Page", {:controller => 'fitbit', :action => 'index'} %>

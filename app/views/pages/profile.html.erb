@@ -1,0 +1,45 @@
+<h1>Keas Profile</h1><br>
+
+<div>
+	<h2>Walking Measurements</h2>
+	<% if @walking_measurements != nil %>
+		<table>
+			<tr><th># Steps</th><th>Duration</th><th>Date/Time Recorded</th><th>Source</th></tr>
+			<% @walking_measurements.each do |m| %>
+				<tr><td><%= m[:value] %></td><td><%= Time.at(m[:seconds]).utc.strftime("%H:%M:%S") %></td><td><%= m[:measured_at] %></td><td><%= m[:source] %></td></tr>
+			<% end %>
+		</table>
+			<br><b>Total Steps: </b> <%= @total_steps %>
+			<br><b>Total Time: </b> <%= Time.at(@total_seconds).utc.strftime("%H:%M:%S") %>
+	<% else %>
+		No measurements yet!
+	<% end %>
+</div>
+
+<div>
+	<h2>Body Fat Measurements</h2>
+	<% if @fat_measurements != nil %>
+		<table>
+			<tr><th>% Body Fat </th><th>Date/Time Recorded</th><th>Source</th></tr>
+			<% @fat_measurements.each do |m| %>
+				<tr><td><%= m[:value] %></td><td><%= m[:measured_at] %></td><td><%= m[:source] %></td></tr>
+			<% end %>
+		</table>
+	<% else %>
+		No measurements yet!
+	<% end %>
+</div>
+
+<div>
+	<h2>Body Weight Measurements</h2>
+	<% if @weight_measurements != nil  %>
+		<table>
+			<tr><th>Weight in lbs </th><th>Date/Time Recorded</th><th>Source</th></tr>
+			<% @weight_measurements.each do |m| %>
+				<tr><td><%= m[:value] %></td><td><%= m[:measured_at] %></td><td><%= m[:source] %></td></tr>
+			<% end %>
+		</table>
+	<% else %>
+		No measurements yet!
+	<% end %>
+</div>

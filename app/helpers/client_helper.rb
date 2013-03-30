@@ -14,5 +14,15 @@ module ClientHelper
     client.reconnect(token, secret)
     return client
   end
-  
+
+  def authorize_client(client, token, verifier, request_token)
+    secret = request_token[:secret]
+    begin
+      access_token = client.authorize(token, secret, { :oauth_verifier => verifier })
+    rescue Exception => e
+      return false
+      puts "Error: Could not authorize Fitgem::Client with supplied oauth verifier: " + verifier
+    end
+    return access_token 
+  end  
 end

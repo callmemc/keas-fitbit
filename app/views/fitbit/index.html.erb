@@ -1,73 +1,8 @@
-<% if current_user %>
-	<% if @fitbit == true %>
-		<div>
-			<h2>Walking Measurements</h2>
-			<% if @walking_measurements != nil %>
-				<table>
-					<tr>
-						<th># Steps</th>
-						<th>Duration</th>
-						<th>Date/Time Recorded</th>
-					</tr>
-					<% @walking_measurements.each do |m| %>
-						<tr>
-							<td><%= m[:value] %></td>
-							<td><%= Time.at(m[:seconds]).utc.strftime("%H:%M:%S") %></td>
-							<td><%= m[:measured_at] %></td>
-						</tr>
-					<% end %>
-				</table>
-					<br>
-					<b>Total Steps: </b> <%= @total_steps %>
-					<br><b>Total Time: </b> <%= Time.at(@total_seconds).utc.strftime("%H:%M:%S") %>
-			<% else %>
-				No measurements yet!
-			<% end %>
-		</div>
+<h1>Fitbit Settings</h1>
 
-		<div>
-			<h2>Body Fat Measurements</h2>
-			<% if @fat_measurements != nil %>
-				<table>
-					<tr>
-						<th>% Body Fat </th>
-						<th>Date/Time Recorded</th>
-					</tr>
-					<% @fat_measurements.each do |m| %>
-						<tr>
-							<td><%= m[:value] %></td>
-							<td><%= m[:measured_at] %></td>
-						</tr>
-					<% end %>
-				</table>
-			<% else %>
-				No measurements yet!
-			<% end %>
-		</div>
-
-		<div>
-			<h2>Body Weight Measurements</h2>
-			<% if @weight_measurements != nil  %>
-				<table>
-					<tr>
-						<th>Weight in lbs </th>
-						<th>Date/Time Recorded</th>
-					</tr>
-					<% @weight_measurements.each do |m| %>
-						<tr>
-							<td><%= m[:value] %></td>
-							<td><%= m[:measured_at] %></td>
-						</tr>
-					<% end %>
-				</table>
-			<% else %>
-				No measurements yet!
-			<% end %>
-		</div>
-		<!--<%= link_to "Remove subscription", {:controller => 'fitbit', :action => 'remove_sub'}, :remote => true %>-->
-	<% else %>
-		<%= link_to "Add Fitbit Account", @auth_url %>
-	<% end %>
+<% if @fitbit == true %>
+	<%= link_to "Fitbit Public Profile", @fitbit_url, :target => "_blank" %>	
+	<br><%= link_to "Remove Fitbit Account", {:controller => 'fitbit', :action => 'remove_fitbit_account'} %>		
 <% else %>
-	Login!
+	<%= link_to "Add Fitbit Account", @auth_url %>
 <% end %>

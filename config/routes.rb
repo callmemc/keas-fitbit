@@ -17,37 +17,23 @@ FitBit::Application.routes.draw do
   resources :pages do
     collection do
       get 'home'
+      get 'profile'
     end
   end
   
   resources :notification
   
   resources :fitbit do
-    #routes HTTP Post request
-    member do
-      post 'index'
-      get 'authorize'
-      post 'verify'
-    end      
+    #routes HTTP Post request     
     collection do
-      get 'authorize'
       get 'index'
-      post 'verify'
-      get 'verify'
-      get 'verifier'
-      post 'collect'
-      get 'test'
-      get 'remove_sub'
+      get 'add_fitbit_account'
+      get 'remove_fitbit_account'
     end
   end
 
-  #match '/fitbit/authorize' => {:controller => 'fitbit', :action => 'authorize'}
-  match '/fitbit_reply' => 'user_tokens#init'
-
   root :to => 'pages#home'
     
-    
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

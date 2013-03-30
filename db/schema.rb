@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130327001341) do
+ActiveRecord::Schema.define(:version => 20130330180908) do
 
   create_table "devices", :force => true do |t|
     t.string   "name"
@@ -24,13 +24,11 @@ ActiveRecord::Schema.define(:version => 20130327001341) do
   end
 
   create_table "fb_collected_logs", :force => true do |t|
-    t.float    "logId"
-    t.integer  "device_id"
+    t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "logId"
   end
-
-  add_index "fb_collected_logs", ["logId"], :name => "index_fitbit_collected_ids_on_logId", :unique => true
 
   create_table "fitbit_resources", :force => true do |t|
     t.string   "name"
@@ -54,7 +52,6 @@ ActiveRecord::Schema.define(:version => 20130327001341) do
     t.integer  "health_statistic_id"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
-    t.integer  "logId"
     t.datetime "measured_at"
     t.integer  "fb_collected_log_id"
   end

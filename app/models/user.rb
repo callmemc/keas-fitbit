@@ -11,4 +11,5 @@ class User < ActiveRecord::Base
   has_many :devices
   has_many :measurements
   has_many :request_tokens
+  has_many :fb_collected_logs
 end
