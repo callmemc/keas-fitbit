@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130330180908) do
+ActiveRecord::Schema.define(:version => 20130339181616) do
 
   create_table "devices", :force => true do |t|
     t.string   "name"
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(:version => 20130330180908) do
     t.datetime "updated_at", :null => false
     t.float    "logId"
   end
+
+  add_index "fb_collected_logs", ["logId"], :name => "index_fb_collected_logs_on_logId"
 
   create_table "fitbit_resources", :force => true do |t|
     t.string   "name"
