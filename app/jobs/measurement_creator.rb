@@ -28,9 +28,7 @@ class MeasurementCreator
         logId = logItem["logId"]
         collected_logs = user.fb_collected_logs
         if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
-puts 'if'
           fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-puts 'calling create activity'
           m = Measurement.create_activity(logItem, fitbit_device.user_id, date, fb_log.id)
         end
       end
@@ -46,10 +44,14 @@ puts 'calling create activity'
         logId = fatItem["logId"]  # shares log Id with weightItem
         collected_logs = user.fb_collected_logs
         if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
+          puts 'if'
           fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
+          puts 'calling create'
           m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
         else
+          puts 'else'
           fb_log = user.fb_collected_logs.find_by_logId(logId)
+          puts 'calling update'
           m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
         end
       end      

@@ -7,8 +7,6 @@ class Measurement < ActiveRecord::Base
   belongs_to :fb_collected_log
   
   def self.create_activity(logItem, user_id, date, fb_log_id)
-puts 'invoking create activity'
-
     name = logItem["name"]
     time = logItem["startTime"]
     resource = FitbitResource.find_by_name(name)
@@ -23,6 +21,7 @@ puts 'invoking create activity'
   end
   
   def self.create_body_measurements(fatItem, weightItem, user_id, date, fb_log_id)
+    puts 'invoking create'
     datetime = datetime(date, fatItem["time"])
     
     #fat item
@@ -37,6 +36,7 @@ puts 'invoking create activity'
   end
   
   def self.update_body_measurements(fatItem, weightItem, date, fb_log_id)
+    puts 'invoking update'
     datetime = datetime(date, fatItem["time"])    
     fb_log = FbCollectedLog.find(fb_log_id)
     fatm = fb_log.measurements.where("health_statistic_id = ?", FAT_ID).first
