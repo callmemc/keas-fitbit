@@ -1,5 +1,5 @@
 class AddIndexToFitbitCollectedId < ActiveRecord::Migration
   def change
-    add_index(:fitbit_collected_ids, :logId, :unique => true)
+    add_index :fb_collected_logs, :logId
   end
 end
