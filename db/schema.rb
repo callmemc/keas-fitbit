@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(:version => 20130330180908) do
     t.integer  "user_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "logId"
+    t.float    "logId"
   end
 
   create_table "fitbit_resources", :force => true do |t|

@@ -7,6 +7,8 @@ class Measurement < ActiveRecord::Base
   belongs_to :fb_collected_log
   
   def self.create_activity(logItem, user_id, date, fb_log_id)
+puts 'invoking create activity'
+
     name = logItem["name"]
     time = logItem["startTime"]
     resource = FitbitResource.find_by_name(name)
