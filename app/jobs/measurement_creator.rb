@@ -56,18 +56,32 @@ class MeasurementCreator
       weight_log = client.weight_on_date(date)["weight"]
       puts 'Weight Log'
       pp weight_log
-
-      fat_log.zip(weight_log).each do |fatItem, weightItem|
-        logId = fatItem["logId"]  # shares log Id with weightItem
+                       
+      fat_log.each do |fatItem|
+        logId = fatItem["logId"]
         collected_logs = user.fb_collected_logs
-        if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
-          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-          m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
+        if collected_logs == [] || collected_logs.where("resource = ?", FAT_ID).find_by_logId(logId) == nil
+          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId, :resource => FAT_ID)
+          m = Measurement.create_body_measurement(fatItem, fitbit_device.user_id, date, fb_log.id, FAT_ID)
         else
-          fb_log = user.fb_collected_logs.find_by_logId(logId)
-          m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
+          fb_log = collected_logs.where("resource = ?", FAT_ID).find_by_logId(logId)
+          puts 'calling update'
+          m = Measurement.update_body_measurement(fatItem, date, fb_log.id, FAT_ID)
         end
-      end           
+      end
+      
+      weight_log.each do |weightItem|
+        logId = weightItem["logId"]
+        collected_logs = user.fb_collected_logs
+        if collected_logs == [] || collected_logs.where("resource = ?", WEIGHT_ID).find_by_logId(logId) == nil
+          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId, :resource => WEIGHT_ID)
+          m = Measurement.create_body_measurement(weightItem, fitbit_device.user_id, date, fb_log.id, WEIGHT_ID)
+        else
+          fb_log = collected_logs.where("resource = ?", WEIGHT_ID).find_by_logId(logId)
+          m = Measurement.update_body_measurement(weightItem, date, fb_log.id, WEIGHT_ID)
+        end
+      end
+
     end     
   end
 end

@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20130402093550) do
     t.datetime "updated_at", :null => false
     t.float    "logId"
     t.string   "date"
+    t.integer  "resource"
   end
 
   add_index "fb_collected_logs", ["logId"], :name => "index_fb_collected_logs_on_logId"
