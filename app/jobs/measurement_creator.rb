@@ -41,34 +41,27 @@ class MeasurementCreator
       pp weight_log
                        
       fat_log.each do |fatItem|
-        logId = fatItem["logId"]  # shares log Id with weightItem
+        logId = fatItem["logId"]
         collected_logs = user.fb_collected_logs
-        if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
-          puts 'if'
-          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-          puts 'calling create'
-          m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
+        if collected_logs == [] || collected_logs.where("resource = ?", FAT_ID).find_by_logId(logId) == nil
+          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId, :resource => FAT_ID)
+          m = Measurement.create_fat(fatItem, fitbit_device.user_id, date, fb_log.id)
         else
-          puts 'else'
-          fb_log = user.fb_collected_logs.find_by_logId(logId)
+          fb_log = collected_logs.where("resource = ?", FAT_ID).find_by_logId(logId)
           puts 'calling update'
-          m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
+          m = Measurement.update_fat(fatItem, date, fb_log.id)
         end
       end
       
       weight_log.each do |weightItem|
-        logId = weightItem["logId"]  # shares log Id with weightItem
+        logId = weightItem["logId"]
         collected_logs = user.fb_collected_logs
-        if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
-          puts 'if'
-          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-          puts 'calling create'
-          m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
+        if collected_logs == [] || collected_logs.where("resource = ?", WEIGHT_ID).find_by_logId(logId) == nil
+          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId, :resource => WEIGHT_ID)
+          m = Measurement.create_weight(weightItem, fitbit_device.user_id, date, fb_log.id)
         else
-          puts 'else'
-          fb_log = user.fb_collected_logs.find_by_logId(logId)
-          puts 'calling update'
-          m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
+          fb_log = collected_logs.where("resource = ?", WEIGHT_ID).find_by_logId(logId)
+          m = Measurement.update_weight(weightItem, date, fb_log.id)
         end
       end
             

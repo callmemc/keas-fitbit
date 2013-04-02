@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130339181616) do
+ActiveRecord::Schema.define(:version => 20130402093550) do
 
   create_table "devices", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20130339181616) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.float    "logId"
+    t.string   "date"
+    t.integer  "resource"
   end
 
   add_index "fb_collected_logs", ["logId"], :name => "index_fb_collected_logs_on_logId"

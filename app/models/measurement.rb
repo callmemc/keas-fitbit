@@ -19,7 +19,7 @@ class Measurement < ActiveRecord::Base
       :seconds => logItem["duration"]/1000, :measured_at => datetime(date, time))
     end  
   end
-  
+=begin  
   def self.create_body_measurements(fatItem, weightItem, user_id, date, fb_log_id)
     puts 'invoking create'
     datetime = datetime(date, fatItem["time"])
@@ -47,4 +47,40 @@ class Measurement < ActiveRecord::Base
     fatm.update_attributes(:value => fatItem["fat"], :measured_at => datetime)
     weightm.update_attributes(:value => weightItem["weight"], :measured_at => datetime)
   end
+=end
+
+  #combine the following 2 into 1 method
+  def self.create_fat(logItem, user_id, date, fb_log_id)
+    datetime = datetime(date, logItem["time"])  
+    puts 'Creating Fat Measurement'
+    Measurement.create(:user_id => user_id, :health_statistic_id => FAT_ID, 
+    :fb_collected_log_id => fb_log_id, :source => 'fitbit', 
+    :value => logItem["fat"], :measured_at => datetime)
+  end
+  
+  def self.create_weight(logItem, user_id, date, fb_log_id)
+    datetime = datetime(date, logItem["time"])
+    puts 'Creating Weight Measurement'
+    Measurement.create(:user_id => user_id, :health_statistic_id => WEIGHT_ID, 
+    :fb_collected_log_id => fb_log_id, :source => 'fitbit', 
+    :value => logItem["weight"], :measured_at => datetime)
+  end
+  
+  #combine the following 2 into 1 method
+  def self.update_fat(logItem, date, fb_log_id)
+    puts 'invoking update'
+    datetime = datetime(date, logItem["time"])    
+    fb_log = FbCollectedLog.find(fb_log_id)
+    m = fb_log.measurements.first
+    puts 'Updating Fat Measurement'
+    m.update_attributes(:value => logItem["fat"], :measured_at => datetime)
+  end
+  def self.update_weight(weightItem, date, fb_log_id)
+    puts 'invoking update'
+    datetime = datetime(date, logItem["time"])    
+    fb_log = FbCollectedLog.find(fb_log_id)
+    m = fb_log.measurements.first
+    puts 'Updating Fat Measurement'
+    m.update_attributes(:value => logItem["weight"], :measured_at => datetime)
+  end  
 end
