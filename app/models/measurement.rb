@@ -6,7 +6,7 @@ class Measurement < ActiveRecord::Base
   belongs_to :health_statistic
   belongs_to :fb_collected_log
   
-  def self.create_activity(logItem, user_id, date, fb_log_id)
+  def self.create_activity(logItem, user_id, date, fb_log_id, source)
     name = logItem["name"]
     time = logItem["startTime"]
     resource = FitbitResource.find_by_name(name)
@@ -15,9 +15,26 @@ class Measurement < ActiveRecord::Base
     if stat.name == "walking"
       puts 'Creating Walking Measurement'
       Measurement.create(:user_id => user_id, :health_statistic_id => WALKING_ID, 
-      :fb_collected_log_id => fb_log_id, :source => 'fitbit', :value => logItem["steps"], 
+      :fb_collected_log_id => fb_log_id, :source => source, :value => logItem["steps"], 
       :seconds => logItem["duration"]/1000, :measured_at => datetime(date, time))
-    end  
+    end
+  end
+  
+  def self.update_activity(logItem, date, fb_log_id)
+    puts 'invoking update'
+#    datetime = datetime(date, logItem["time"])    
+    name = logItem["name"]
+    resource = FitbitResource.find_by_name(name)
+    stat = resource.health_statistic
+        
+    fb_log = FbCollectedLog.find(fb_log_id)
+    m = fb_log.measurements.where("health_statistic_id = ?", WALKING_ID).first #don't need the where clause
+    
+    #UPDATING ATTRIBUTES
+    if stat.name == "walking"
+      puts 'Updating Walking Measurement'
+      m.update_attributes(:value => logItem["steps"])
+    end
   end
   
   def self.create_body_measurements(fatItem, weightItem, user_id, date, fb_log_id)

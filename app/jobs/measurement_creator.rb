@@ -18,6 +18,7 @@ class MeasurementCreator
     
     client = reconnect_client(fitbit_device[:token], fitbit_device[:secret])
     user = fitbit_device.user
+    collected_logs = user.fb_collected_logs
 
     # ================= GETTING RESOURCES =================== #    
     if collectionType == 'activities'
@@ -26,12 +27,28 @@ class MeasurementCreator
       puts log     
       log.each do |logItem|   #Each logItem is a Hash
         logId = logItem["logId"]
-        collected_logs = user.fb_collected_logs
         if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
           fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-          m = Measurement.create_activity(logItem, fitbit_device.user_id, date, fb_log.id)
+          m = Measurement.create_activity(logItem, fitbit_device.user_id, date, fb_log.id, 'fitbit log')
         end
       end
+
+      #Update Daily Steps
+      puts 'Daily Steps'
+      daily_steps = client.daily_steps(date)["activities-tracker-steps"][0]["value"]
+      puts daily_steps
+      
+      if daily_steps != 0
+        logItem = {"name" => "Walking", "startTime" => "00:00", "steps" => daily_steps, "duration" => 0}
+        if collected_logs == [] || collected_logs.find_by_date(date) == nil
+          fb_log = FbCollectedLog.create(:user_id => user.id, :date => date)
+          m = Measurement.create_activity(logItem, fitbit_device.user_id, date, fb_log.id, 'fitbit tracker')
+        else
+          fb_log = user.fb_collected_logs.find_by_date(date)
+          m = Measurement.update_activity(logItem, date, fb_log.id)
+        end        
+      end
+
     elsif collectionType == 'body'
       fat_log = client.fat_on_date(date)["fat"]      
       puts 'Fat Log'
@@ -44,50 +61,13 @@ class MeasurementCreator
         logId = fatItem["logId"]  # shares log Id with weightItem
         collected_logs = user.fb_collected_logs
         if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
-          puts 'if'
           fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-          puts 'calling create'
           m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
         else
-          puts 'else'
           fb_log = user.fb_collected_logs.find_by_logId(logId)
-          puts 'calling update'
           m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
         end
-      end
-=begin                       
-      fat_log.each do |fatItem|
-        logId = fatItem["logId"]  # shares log Id with weightItem
-        collected_logs = user.fb_collected_logs
-        if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
-          puts 'if'
-          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-          puts 'calling create'
-          m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
-        else
-          puts 'else'
-          fb_log = user.fb_collected_logs.find_by_logId(logId)
-          puts 'calling update'
-          m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
-        end
-      end
-      
-      weight_log.each do |weightItem|
-        logId = weightItem["logId"]  # shares log Id with weightItem
-        collected_logs = user.fb_collected_logs
-        if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
-          puts 'if'
-          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
-          puts 'calling create'
-          m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
-        else
-          puts 'else'
-          fb_log = user.fb_collected_logs.find_by_logId(logId)
-          puts 'calling update'
-          m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
-        end
-      end
-=end            
+      end           
     end     
   end
 end
