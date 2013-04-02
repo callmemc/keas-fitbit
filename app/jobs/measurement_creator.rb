@@ -39,7 +39,7 @@ class MeasurementCreator
       weight_log = client.weight_on_date(date)["weight"]
       puts 'Weight Log'
       pp weight_log
-                  
+
       fat_log.zip(weight_log).each do |fatItem, weightItem|
         logId = fatItem["logId"]  # shares log Id with weightItem
         collected_logs = user.fb_collected_logs
@@ -54,7 +54,40 @@ class MeasurementCreator
           puts 'calling update'
           m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
         end
-      end      
+      end
+=begin                       
+      fat_log.each do |fatItem|
+        logId = fatItem["logId"]  # shares log Id with weightItem
+        collected_logs = user.fb_collected_logs
+        if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
+          puts 'if'
+          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
+          puts 'calling create'
+          m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
+        else
+          puts 'else'
+          fb_log = user.fb_collected_logs.find_by_logId(logId)
+          puts 'calling update'
+          m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
+        end
+      end
+      
+      weight_log.each do |weightItem|
+        logId = weightItem["logId"]  # shares log Id with weightItem
+        collected_logs = user.fb_collected_logs
+        if collected_logs == [] || collected_logs.find_by_logId(logId) == nil
+          puts 'if'
+          fb_log = FbCollectedLog.create(:user_id => user.id, :logId => logId)
+          puts 'calling create'
+          m = Measurement.create_body_measurements(fatItem, weightItem, fitbit_device.user_id, date, fb_log.id)
+        else
+          puts 'else'
+          fb_log = user.fb_collected_logs.find_by_logId(logId)
+          puts 'calling update'
+          m = Measurement.update_body_measurements(fatItem, weightItem, date, fb_log.id)
+        end
+      end
+=end            
     end     
   end
 end
