@@ -21,16 +21,12 @@ class Measurement < ActiveRecord::Base
   end
   
   def self.update_activity(logItem, date, fb_log_id)
-    puts 'invoking update'
-#    datetime = datetime(date, logItem["time"])    
     name = logItem["name"]
     resource = FitbitResource.find_by_name(name)
     stat = resource.health_statistic
         
     fb_log = FbCollectedLog.find(fb_log_id)
-    m = fb_log.measurements.where("health_statistic_id = ?", WALKING_ID).first #don't need the where clause
-    
-    #UPDATING ATTRIBUTES
+    m = fb_log.measurement
     if stat.name == "walking"
       puts 'Updating Walking Measurement'
       m.update_attributes(:value => logItem["steps"])
@@ -55,7 +51,7 @@ class Measurement < ActiveRecord::Base
   def self.update_body_measurement(logItem, date, fb_log_id, resource)
     datetime = datetime(date, logItem["time"])
     fb_log = FbCollectedLog.find(fb_log_id)
-    m = fb_log.measurements.first    
+    m = fb_log.measurement  
     if resource == FAT_ID
       puts 'Updating Fat Measurement'
       value = logItem["fat"]
@@ -63,6 +59,6 @@ class Measurement < ActiveRecord::Base
       puts 'Updating Weight Measurement' 
       value = logItem["weight"]
     end
-    m.update_attributes(:value => value, :measured_at => datetime)
+    m.update_attributes(:value => value, :measured_at => datetime) # not sure if need to update datetime
   end
 end
